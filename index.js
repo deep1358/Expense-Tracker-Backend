@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const passport = require("passport");
-const { session } = require("express-session");
+const session = require("express-session");
 require("dotenv").config();
 
 // App initialization
@@ -38,8 +38,12 @@ app.use(cookieParser(process.env.SESSION_SECRET));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get("/", (req, res) => {
-	res.send("<h1>Welcome to the Expense Tracker API applicaion :)</h1>");
+// Routes
+
+app.use("/api/auth", require("./routes/auth"));
+
+app.use("/", (req, res) => {
+	res.send("<h1>Welcome to the Expense Tracker API :)</h1>");
 });
 
 app.listen(PORT, () => {
