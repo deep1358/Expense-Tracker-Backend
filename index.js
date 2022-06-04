@@ -1,6 +1,5 @@
 const express = require("express");
 const cors = require("cors");
-const cookieParser = require("cookie-parser");
 const passport = require("passport");
 const session = require("express-session");
 require("dotenv").config();
@@ -10,6 +9,7 @@ require("dotenv").config();
 const app = express();
 
 const PORT = process.env.PORT || 5000;
+require("./db/index").connect();
 
 // Middlewares
 
@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(
 	cors({
 		origin: process.env.FRONTEND_URL,
-		methods: ["GET", "POST", "PUT", "DELETE"],
+		methods: ["GET", "POST", "PATCH", "DELETE"],
 		credentials: true,
 	})
 );
@@ -26,21 +26,28 @@ app.use(
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
-		resave: true,
-		saveUninitialized: true,
+		resave: false,
+		saveUninitialized: false,
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24 * 15,
 		},
 	})
 );
 
-app.use(cookieParser(process.env.SESSION_SECRET));
+if (app.get("env") === "production") {
+	// Serve secure cookies, requires HTTPS
+	session.cookie.secure = true;
+}
+
 app.use(passport.initialize());
 app.use(passport.session());
+require("./config/passportConfig")(passport);
 
 // Routes
 
-app.use("/api/auth", require("./routes/auth"));
+app.use("/auth", require("./routes/auth"));
+
+app.use("/category", require("./routes/categories"));
 
 app.use("/", (req, res) => {
 	res.send("<h1>Welcome to the Expense Tracker API :)</h1>");
