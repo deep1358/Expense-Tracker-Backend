@@ -1,7 +1,7 @@
 const User = require("../../db/models/User");
 
 module.exports = (req, res) => {
-	User.deleteOne({ userEmail: req.body.userEmail }, (err, result) => {
+	User.deleteOne({ userEmail: req.user.userEmail }, (err) => {
 		if (err) {
 			res.status(500).json({ message: err });
 		} else {
