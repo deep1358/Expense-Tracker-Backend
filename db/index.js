@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 require("./models/User");
+require("./models/Expense");
 
 exports.connect = () => {
 	return mongoose.connect(

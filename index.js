@@ -49,6 +49,8 @@ app.use("/auth", require("./routes/auth"));
 
 app.use("/category", require("./routes/categories"));
 
+app.use("/expense", require("./routes/expenses"));
+
 app.use("/", (req, res) => {
 	res.send("<h1>Welcome to the Expense Tracker API :)</h1>");
 });

@@ -6,7 +6,15 @@ module.exports = (req, res) => {
 		{ $addToSet: { categories: req.body.categoryName } }
 	)
 		.then(() => {
-			res.status(200).json({ message: "Category created successfully" });
+			// Add only unique categories
+			req.user.categories = [
+				...new Set([...req.user.categories, req.body.categoryName]),
+			];
+
+			return res.status(200).json({
+				message: "Category created successfully",
+				categories: req.user.categories,
+			});
 		})
 		.catch((err) => {
 			res.status(500).json({ message: "Error creating category" });

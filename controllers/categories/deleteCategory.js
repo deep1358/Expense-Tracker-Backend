@@ -6,9 +6,15 @@ module.exports = (req, res) => {
 		{ $pull: { categories: req.params.category } }
 	)
 		.then(() => {
-			res.status(200).json({ message: "Category deleted successfully" });
+			req.user.categories = req.user.categories.filter(
+				(category) => category !== req.params.category
+			);
+			res.status(200).json({
+				message: "Category deleted successfully",
+				categories: req.user.categories,
+			});
 		})
-		.catch((err) => {
+		.catch(() => {
 			res.status(500).json({ message: "Error deleting category" });
 		});
 };
