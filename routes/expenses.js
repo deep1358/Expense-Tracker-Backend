@@ -18,6 +18,21 @@ router.patch(
 	require("../controllers/expenses/updateExpense")
 );
 router.get(
+	"/yearWiseExpense",
+	Authmiddleware,
+	require("../controllers/expenses/getYearWiseExpense")
+);
+router.get(
+	"/year/:year",
+	Authmiddleware,
+	require("../controllers/expenses/getMonthWiseExpense")
+);
+router.get(
+	"/year/:year/:month",
+	Authmiddleware,
+	require("../controllers/expenses/getDayWiseExpense")
+);
+router.get(
 	"/:id",
 	Authmiddleware,
 	require("../controllers/expenses/getExpense")

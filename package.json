@@ -12,6 +12,7 @@
 		"nodemon": "^2.0.16"
 	},
 	"scripts": {
-		"start": "nodemon index"
+		"start": "nodemon index",
+		"populate": "node populate/index.js"
 	}
 }

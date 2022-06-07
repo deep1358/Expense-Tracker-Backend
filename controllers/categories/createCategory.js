@@ -16,7 +16,7 @@ module.exports = (req, res) => {
 				categories: req.user.categories,
 			});
 		})
-		.catch((err) => {
+		.catch(() => {
 			res.status(500).json({ message: "Error creating category" });
 		});
 };
