@@ -4,10 +4,9 @@ const categoryExists = require("./categoryExists");
 
 module.exports = (req, res) => {
 	const { _id } = req.user;
-	const { category, amount, note } = req.body;
-	const year = new Date().getFullYear();
-	const month = new Date().getMonth() + 1;
-	const day = new Date().getDate();
+	const { category, amount, note, date } = req.body;
+
+	const [year, month, day] = date.split("-");
 
 	User.findById(_id)
 		.then((userRes) => {
@@ -25,7 +24,15 @@ module.exports = (req, res) => {
 						.then((expense) => {
 							res.status(200).json({
 								message: "Expense created successfully",
-								expense,
+								expense: {
+									category: expense.category,
+									amount: expense.amount,
+									note: expense.note,
+									year: expense.year,
+									month: expense.month,
+									day: expense.day,
+									_id: expense._id,
+								},
 							});
 						})
 						.catch((err) => {

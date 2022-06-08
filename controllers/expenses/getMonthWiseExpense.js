@@ -32,6 +32,6 @@ module.exports = (req, res) => {
 		.catch((err) =>
 			res
 				.status(400)
-				.json({ message: err.message || "Error getting year wise data" })
+				.json({ message: err.message || "Error getting month wise data" })
 		);
 };
