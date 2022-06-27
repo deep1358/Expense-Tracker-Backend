@@ -24,7 +24,7 @@ module.exports = (req, res) => {
 		return res.status(400).json({ message: "Invalid month" });
 
 	Expense.find({ year, month: monthIndex + 1 }, { user_id: 0, __v: 0 })
-		.sort({ createdAt: -1 })
+		.sort({ day: -1 })
 		.then((expenses) => res.status(200).send(expenses))
 		.catch((err) =>
 			res
