@@ -37,5 +37,10 @@ router.get(
 	Authmiddleware,
 	require("../controllers/expenses/getExpense")
 );
+router.get(
+	"/viz/categoryWise",
+	Authmiddleware,
+	require("../controllers/expenses/getCategoryWiseExpenseForViz")
+);
 
 module.exports = router;
