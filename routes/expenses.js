@@ -33,14 +33,29 @@ router.get(
 	require("../controllers/expenses/getDayWiseExpense")
 );
 router.get(
-	"/:id",
-	Authmiddleware,
-	require("../controllers/expenses/getExpense")
-);
-router.get(
 	"/viz/categoryWise",
 	Authmiddleware,
 	require("../controllers/expenses/getCategoryWiseExpenseForViz")
+);
+router.get(
+	"/viz/dayWise",
+	Authmiddleware,
+	require("../controllers/expenses/getDayWiseExpenseForViz")
+);
+router.get(
+	"/viz/monthWise",
+	Authmiddleware,
+	require("../controllers/expenses/getMonthWiseExpenseForViz")
+);
+router.get(
+	"/viz/yearWise",
+	Authmiddleware,
+	require("../controllers/expenses/getYearWiseExpenseForViz")
+);
+router.get(
+	"/:id",
+	Authmiddleware,
+	require("../controllers/expenses/getExpense")
 );
 
 module.exports = router;

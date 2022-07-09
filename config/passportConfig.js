@@ -11,7 +11,6 @@ module.exports = function (passport) {
 			if (err) {
 				return cb(err);
 			}
-			// console.log(user);
 			cb(null, user);
 		});
 	});

@@ -1,102 +1,117 @@
 const Expense = require("../../db/models/Expense");
 const User = require("../../db/models/User");
 
-const duplicateCode = (categories, expense, res) => {
+const months = [
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
+];
+
+const duplicateCode = (expense, res) => {
 	let data = [],
 		map = new Map();
 
-	categories.forEach((category) => {
-		map.set(category, 0);
+	months.forEach((_, index) => {
+		map.set(index + 1, 0);
 	});
 
 	expense.forEach((el) => {
-		map.set(el.category, map.get(el.category) + el.amount);
+		map.set(el.month, map.get(el.month) + el.amount);
 	});
-	data = Array.from(map, ([category, amount]) => ({
-		category,
+	data = Array.from(map, ([month, amount]) => ({
+		month: months[month - 1],
 		amount,
 	}));
 	res.status(200).send(data);
 };
 
 module.exports = (req, res) => {
-	const { _id, categories } = req.user;
-	const { year, month, day } = req.query;
+	const { _id } = req.user;
+	const { year, category, day } = req.query;
 	User.findById(_id)
 		.then((userRes) => {
 			if (userRes) {
-				if (year === "All" && month === "All" && day === "All") {
-					Expense.find({ user_id: _id }, { category: 1, amount: 1 })
+				if (year === "All" && category === "All" && day === "All") {
+					Expense.find({ user_id: _id }, { month: 1, amount: 1 })
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							duplicateCode(expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
 						);
-				} else if (year === "All" && month === "All") {
-					Expense.find({ user_id: _id, day }, { category: 1, amount: 1 })
+				} else if (year === "All" && category === "All") {
+					Expense.find({ user_id: _id, day }, { month: 1, amount: 1 })
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
-						})
-						.catch((err) =>
-							res.status(400).json({ message: err.message || "Error" })
-						);
-				} else if (month === "All" && day === "All") {
-					Expense.find({ user_id: _id, year }, { category: 1, amount: 1 })
-						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							duplicateCode(expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
 						);
 				} else if (year === "All" && day === "All") {
-					Expense.find({ user_id: _id, month }, { category: 1, amount: 1 })
+					Expense.find({ user_id: _id, category }, { month: 1, amount: 1 })
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							duplicateCode(expense, res);
+						})
+						.catch((err) =>
+							res.status(400).json({ message: err.message || "Error" })
+						);
+				} else if (category === "All" && day === "All") {
+					Expense.find({ user_id: _id, year }, { month: 1, amount: 1 })
+						.then((expense) => {
+							duplicateCode(expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
 						);
 				} else if (day === "All") {
 					Expense.find(
-						{ user_id: _id, year, month },
-						{ category: 1, amount: 1 }
+						{ user_id: _id, year, category },
+						{ month: 1, amount: 1 }
 					)
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							duplicateCode(expense, res);
+						})
+						.catch((err) =>
+							res.status(400).json({ message: err.message || "Error" })
+						);
+				} else if (category === "All") {
+					Expense.find(
+						{ user_id: _id, year, day },
+						{ month: 1, amount: 1 }
+					)
+						.then((expense) => {
+							duplicateCode(expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
 						);
 				} else if (year === "All") {
 					Expense.find(
-						{ user_id: _id, month, day },
-						{ category: 1, amount: 1 }
+						{ user_id: _id, category, day },
+						{ month: 1, amount: 1 }
 					)
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
-						})
-						.catch((err) =>
-							res.status(400).json({ message: err.message || "Error" })
-						);
-				} else if (month === "All") {
-					Expense.find(
-						{ user_id: _id, year, day },
-						{ category: 1, amount: 1 }
-					)
-						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							duplicateCode(expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
 						);
 				} else {
 					Expense.find(
-						{ user_id: _id, year, month, day },
-						{ category: 1, amount: 1 }
+						{ user_id: _id, year, category, day },
+						{ month: 1, amount: 1 }
 					)
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							duplicateCode(expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })

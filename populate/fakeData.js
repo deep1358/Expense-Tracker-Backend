@@ -6,7 +6,7 @@ const fakeExpenses = [
 		year: 2020,
 		month: 01,
 		day: 01,
-		user_id: "629f79b398e9d2e7218334fc",
+		user_id: "62c92a723ae3dab17de2a070",
 	},
 	{
 		category: "Other",
@@ -15,7 +15,7 @@ const fakeExpenses = [
 		year: 2020,
 		month: 02,
 		day: 03,
-		user_id: "629f79b398e9d2e7218334fc",
+		user_id: "62c92a723ae3dab17de2a070",
 	},
 	{
 		category: "Transport",
@@ -24,7 +24,7 @@ const fakeExpenses = [
 		year: 2019,
 		month: 03,
 		day: 30,
-		user_id: "629f79b398e9d2e7218334fc",
+		user_id: "62c92a723ae3dab17de2a070",
 	},
 	{
 		category: "Food",
@@ -33,7 +33,7 @@ const fakeExpenses = [
 		year: 2018,
 		month: 04,
 		day: 01,
-		user_id: "629f79b398e9d2e7218334fc",
+		user_id: "62c92a723ae3dab17de2a070",
 	},
 	{
 		category: "Other",
@@ -42,7 +42,7 @@ const fakeExpenses = [
 		year: 2018,
 		month: 05,
 		day: 03,
-		user_id: "629f79b398e9d2e7218334fc",
+		user_id: "62c92a723ae3dab17de2a070",
 	},
 	{
 		category: "Transport",
@@ -51,7 +51,7 @@ const fakeExpenses = [
 		year: 2017,
 		month: 06,
 		day: 30,
-		user_id: "629f79b398e9d2e7218334fc",
+		user_id: "62c92a723ae3dab17de2a070",
 	},
 	{
 		category: "Food",
@@ -60,7 +60,7 @@ const fakeExpenses = [
 		year: 2017,
 		month: 07,
 		day: 01,
-		user_id: "629f79b398e9d2e7218334fc",
+		user_id: "62c92a723ae3dab17de2a070",
 	},
 	{
 		category: "Other",
@@ -69,7 +69,7 @@ const fakeExpenses = [
 		year: 2017,
 		month: 08,
 		day: 03,
-		user_id: "629f79b398e9d2e7218334fc",
+		user_id: "62c92a723ae3dab17de2a070",
 	},
 	{
 		category: "Food",
@@ -78,7 +78,7 @@ const fakeExpenses = [
 		year: 2017,
 		month: 08,
 		day: 04,
-		user_id: "629f79b398e9d2e7218334fc",
+		user_id: "62c92a723ae3dab17de2a070",
 	},
 ];
 
