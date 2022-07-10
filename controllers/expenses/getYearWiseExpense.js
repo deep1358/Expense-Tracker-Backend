@@ -6,6 +6,8 @@ module.exports = (req, res) => {
 	Expense.find({ user_id: _id }, { year: 1, amount: 1 })
 		.then((expenses) => {
 			const yearWiseExpense = {};
+
+			// Group expenses by year
 			expenses.forEach((expense) => {
 				if (yearWiseExpense[expense.year])
 					yearWiseExpense[expense.year] += expense.amount;

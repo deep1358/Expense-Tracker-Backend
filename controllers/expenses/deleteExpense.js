@@ -5,6 +5,7 @@ module.exports = (req, res) => {
 	const { _id } = req.user;
 	const { id } = req.params;
 
+	// Check if user exists
 	User.findById(_id)
 		.then((userRes) => {
 			if (userRes)
@@ -23,6 +24,8 @@ module.exports = (req, res) => {
 		})
 		.catch((err) => res.status(500).json({ message: err.message }));
 };
+
+// Code for creating mongo db indexes
 
 // function ObjectId() {
 // 	const timestamp = ((new Date().getTime() / 1000) | 0).toString(16);

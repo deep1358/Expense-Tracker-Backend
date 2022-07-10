@@ -13,23 +13,24 @@ module.exports = (req, res) => {
 				{ $set: { category: req.body.newValue } }
 			)
 				.then(() => {
-					// Update newValue with oldValue in categories
+					// Update newValue with oldValue in categories to session
 					req.user.categories = req.user.categories.map((category) => {
 						if (category === req.body.oldValue) return req.body.newValue;
 						return category;
 					});
+
 					res.status(200).json({
 						message: "Category updated successfully",
 						categories: req.user.categories,
 					});
 				})
-				.catch((err) => {
+				.catch(() => {
 					res.status(500).json({
 						message: "Error updating category",
 					});
 				});
 		})
-		.catch((err) => {
+		.catch(() => {
 			res.status(500).json({ message: "Error updating category" });
 		});
 };

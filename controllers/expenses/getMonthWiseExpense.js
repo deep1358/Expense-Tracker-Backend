@@ -1,32 +1,20 @@
 const Expense = require("../../db/models/Expense");
-
-const months = [
-	"January",
-	"February",
-	"March",
-	"April",
-	"May",
-	"June",
-	"July",
-	"August",
-	"September",
-	"October",
-	"November",
-	"December",
-];
+const months = require("../../utils/months");
 
 module.exports = (req, res) => {
-	const { _id } = req.user;
 	const { year } = req.params;
 
 	Expense.find({ year }, { month: 1, amount: 1 })
 		.then((expenses) => {
 			const monthWiseExpense = {};
+
+			// Group expenses by month
 			expenses.forEach((expense) => {
 				if (monthWiseExpense[months[expense.month - 1]])
 					monthWiseExpense[months[expense.month - 1]] += expense.amount;
 				else monthWiseExpense[months[expense.month - 1]] = expense.amount;
 			});
+
 			res.status(200).send(monthWiseExpense);
 		})
 		.catch((err) =>

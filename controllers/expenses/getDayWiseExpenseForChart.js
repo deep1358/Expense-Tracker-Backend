@@ -1,17 +1,22 @@
 const Expense = require("../../db/models/Expense");
 const User = require("../../db/models/User");
+const getMonthWiseDays = require("../../utils/getMonthWiseDays");
 
-const duplicateCode = (month, year, expense, res) => {
+const ModifyResponse = (month, year, expense, res) => {
 	let data = [],
-		map = new Map();
+		map = new Map(); // Map to store day and amount
 
+	// Set map with day to amount 0 initially
 	getMonthWiseDays(month, year).forEach((day) => {
 		map.set(day, 0);
 	});
 
+	// Add amount to day
 	expense.forEach((el) => {
 		map.set(el.day, map.get(el.day) + el.amount);
 	});
+
+	// Convert map to array
 	data = Array.from(map, ([day, amount]) => ({
 		// day with shorter month name
 		day: `${day} ${new Date(year, month - 1, day).toLocaleDateString(
@@ -26,23 +31,11 @@ const duplicateCode = (month, year, expense, res) => {
 	res.status(200).send(data);
 };
 
-const daysOfMonths = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-
-const getMonthWiseDays = (month, year) => {
-	let days = [],
-		daysInMonth = daysOfMonths[month - 1];
-	if (leapYear(year) && month === "2") daysInMonth = 29;
-	for (let i = 1; i <= daysInMonth; i++) days.push(i);
-	return days;
-};
-
-function leapYear(year) {
-	return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-}
-
 module.exports = (req, res) => {
 	const { _id } = req.user;
 	const { year, month, category } = req.query;
+
+	// Check if user exists
 	User.findById(_id)
 		.then((userRes) => {
 			if (userRes) {
@@ -57,7 +50,7 @@ module.exports = (req, res) => {
 						{ day: 1, amount: 1 }
 					)
 						.then((expense) => {
-							duplicateCode(month, year, expense, res);
+							ModifyResponse(month, year, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
@@ -68,7 +61,7 @@ module.exports = (req, res) => {
 						{ day: 1, amount: 1 }
 					)
 						.then((expense) => {
-							duplicateCode(month, year, expense, res);
+							ModifyResponse(month, year, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })

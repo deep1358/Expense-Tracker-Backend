@@ -1,3 +1,4 @@
+// Fake Data for the backend
 const fakeExpenses = [
 	{
 		category: "Food",

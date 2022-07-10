@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// Schema for Expense
 const ExpenseSchema = new Schema({
 	category: {
 		type: String,

@@ -3,9 +3,7 @@ const User = require("../../db/models/User");
 module.exports = (profile, done) => {
 	// Check if user exists
 	User.findOne({ userEmail: profile.emails[0].value }, (err, user) => {
-		if (err) {
-			return done(err);
-		}
+		if (err) return done(err);
 
 		// If user exists, return user
 		if (user) return done(null, user);

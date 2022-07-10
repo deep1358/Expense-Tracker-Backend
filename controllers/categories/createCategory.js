@@ -6,7 +6,7 @@ module.exports = (req, res) => {
 		{ $addToSet: { categories: req.body.categoryName } }
 	)
 		.then(() => {
-			// Add only unique categories
+			// Add only unique categories to the user's session
 			req.user.categories = [
 				...new Set([...req.user.categories, req.body.categoryName]),
 			];

@@ -1,16 +1,19 @@
 const Expense = require("../../db/models/Expense");
 const User = require("../../db/models/User");
-const categoryExists = require("./categoryExists");
+const categoryExists = require("../../utils/categoryExists");
 
 module.exports = (req, res) => {
 	const { _id } = req.user;
 	const { category, amount, note, date } = req.body;
 
+	// Get year, month, and day from date
 	const [year, month, day] = date.split("-");
 
+	// Check if user exists
 	User.findById(_id)
 		.then((userRes) => {
 			if (userRes) {
+				// Check if category exists
 				if (categoryExists(userRes.categories, category))
 					Expense.create({
 						category,

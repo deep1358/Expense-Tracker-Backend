@@ -3,6 +3,8 @@ const User = require("../../db/models/User");
 
 module.exports = (req, res) => {
 	const { _id } = req.user;
+
+	// Check if user exists
 	User.findById(_id)
 		.then((userRes) => {
 			if (userRes)

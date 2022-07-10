@@ -1,18 +1,17 @@
 const createUser = require("../controllers/auth/createUser");
-
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 module.exports = (passport) => {
 	passport.use(
 		new GoogleStrategy(
 			{
-				clientID:
-					"972440077404-de6nj6vnagerim1dn4am47ra97tnf8qq.apps.googleusercontent.com",
+				clientID: process.env.GOOGLE_CLIENT_ID,
 				clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 				callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
 				passReqToCallback: true,
 			},
-			function (req, accessToken, refreshToken, profile, done) {
+			function (_req, _accessToken, _refreshToken, profile, done) {
+				// Create user if it doesn't exist
 				createUser(profile, done);
 			}
 		)

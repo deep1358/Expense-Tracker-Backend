@@ -1,17 +1,21 @@
 const Expense = require("../../db/models/Expense");
 const User = require("../../db/models/User");
 
-const duplicateCode = (categories, expense, res) => {
+const ModifyResponse = (categories, expense, res) => {
 	let data = [],
-		map = new Map();
+		map = new Map(); // Map to store unique category and amount
 
+	// Set map with unique category to amount 0 initially
 	categories.forEach((category) => {
 		map.set(category, 0);
 	});
 
+	// Add amount to unique category
 	expense.forEach((el) => {
 		map.set(el.category, map.get(el.category) + el.amount);
 	});
+
+	// Convert map to array
 	data = Array.from(map, ([category, amount]) => ({
 		category,
 		amount,
@@ -22,13 +26,15 @@ const duplicateCode = (categories, expense, res) => {
 module.exports = (req, res) => {
 	const { _id, categories } = req.user;
 	const { year, month, day } = req.query;
+
+	// Check if user exists
 	User.findById(_id)
 		.then((userRes) => {
 			if (userRes) {
 				if (year === "All" && month === "All" && day === "All") {
 					Expense.find({ user_id: _id }, { category: 1, amount: 1 })
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							ModifyResponse(categories, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
@@ -36,7 +42,7 @@ module.exports = (req, res) => {
 				} else if (year === "All" && month === "All") {
 					Expense.find({ user_id: _id, day }, { category: 1, amount: 1 })
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							ModifyResponse(categories, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
@@ -44,7 +50,7 @@ module.exports = (req, res) => {
 				} else if (month === "All" && day === "All") {
 					Expense.find({ user_id: _id, year }, { category: 1, amount: 1 })
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							ModifyResponse(categories, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
@@ -52,7 +58,7 @@ module.exports = (req, res) => {
 				} else if (year === "All" && day === "All") {
 					Expense.find({ user_id: _id, month }, { category: 1, amount: 1 })
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							ModifyResponse(categories, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
@@ -63,7 +69,7 @@ module.exports = (req, res) => {
 						{ category: 1, amount: 1 }
 					)
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							ModifyResponse(categories, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
@@ -74,7 +80,7 @@ module.exports = (req, res) => {
 						{ category: 1, amount: 1 }
 					)
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							ModifyResponse(categories, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
@@ -85,7 +91,7 @@ module.exports = (req, res) => {
 						{ category: 1, amount: 1 }
 					)
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							ModifyResponse(categories, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
@@ -96,7 +102,7 @@ module.exports = (req, res) => {
 						{ category: 1, amount: 1 }
 					)
 						.then((expense) => {
-							duplicateCode(categories, expense, res);
+							ModifyResponse(categories, expense, res);
 						})
 						.catch((err) =>
 							res.status(400).json({ message: err.message || "Error" })
