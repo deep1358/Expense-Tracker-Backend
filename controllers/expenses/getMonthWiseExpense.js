@@ -3,8 +3,9 @@ const months = require("../../utils/months");
 
 module.exports = (req, res) => {
 	const { year } = req.params;
+	const { _id } = req.user;
 
-	Expense.find({ year }, { month: 1, amount: 1 })
+	Expense.find({ year, user_id: _id }, { month: 1, amount: 1 })
 		.then((expenses) => {
 			const monthWiseExpense = {};
 
