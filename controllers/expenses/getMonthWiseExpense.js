@@ -6,6 +6,9 @@ module.exports = (req, res) => {
 	const { _id } = req.user;
 
 	Expense.find({ year, user_id: _id }, { month: 1, amount: 1 })
+		.sort({
+			month: 1,
+		})
 		.then((expenses) => {
 			const monthWiseExpense = {};
 
