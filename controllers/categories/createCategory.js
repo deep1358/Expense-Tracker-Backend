@@ -1,15 +1,19 @@
 const User = require("../../db/models/User");
+const categoryExists = require("../../utils/categoryExists");
 
 module.exports = (req, res) => {
+	const { categories } = req.user;
+	const { categoryName } = req.body;
+
+	// Check if category exists
+	if (categoryExists(categories, categoryName))
+		return res.status(400).json({ message: "Category already exists" });
 	User.updateOne(
 		{ userEmail: req.user.userEmail },
-		{ $addToSet: { categories: req.body.categoryName } }
+		{ $addToSet: { categories: categoryName } }
 	)
 		.then(() => {
-			// Add only unique categories to the user's session
-			req.user.categories = [
-				...new Set([...req.user.categories, req.body.categoryName]),
-			];
+			req.user.categories.push(categoryName);
 
 			return res.status(200).json({
 				message: "Category created successfully",
