@@ -2,16 +2,16 @@ const User = require("../../db/models/User");
 const Expense = require("../../db/models/Expense");
 
 module.exports = (req, res) => {
-	const { userEmail } = req.user;
+	const { userEmail, _id, categories } = req.user;
 	const { category } = req.params;
 
 	User.updateOne({ userEmail }, { $pull: { categories: category } })
 		.then(() => {
 			// Delete all expenses of user of this category
-			Expense.deleteMany({ category })
+			Expense.deleteMany({ user_id: _id, category })
 				.then(() => {
 					// Update all expenses of user of this category to session
-					req.user.categories = req.user.categories.filter(
+					req.user.categories = categories.filter(
 						(category) => category !== req.params.category
 					);
 
