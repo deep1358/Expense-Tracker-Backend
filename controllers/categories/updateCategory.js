@@ -6,8 +6,14 @@ module.exports = (req, res) => {
 	const { categories, _id, userEmail } = req.user;
 	const { oldValue, newValue } = req.body;
 
-	// Check if category exists
+	// Check if category name contains only alphabets
+	if (!/^[a-zA-Z]+$/.test(newValue))
+		return res
+			.status(400)
+			.json({ message: "Category name must be alphabetic" });
+
 	if (categoryExists(categories, newValue))
+		// Check if category exists
 		return res.status(400).json({ message: "Category already exists" });
 
 	// Check if category name is too long

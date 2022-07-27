@@ -5,6 +5,12 @@ module.exports = (req, res) => {
 	const { categories, userEmail } = req.user;
 	const { categoryName } = req.body;
 
+	// Check if category name contains only alphabets
+	if (!/^[a-zA-Z]+$/.test(categoryName))
+		return res
+			.status(400)
+			.json({ message: "Category name must be alphabetic" });
+
 	// Check if category exists
 	if (categoryExists(categories, categoryName))
 		return res.status(400).json({ message: "Category already exists" });
