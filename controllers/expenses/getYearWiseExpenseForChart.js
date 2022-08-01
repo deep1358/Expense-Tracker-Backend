@@ -29,7 +29,7 @@ const ModifyResponse = (expense, res, years, category = "") => {
 		year,
 		amount,
 	}));
-	res.status(200).send(data);
+	res.status(200).json(data);
 };
 
 module.exports = (req, res) => {
@@ -153,7 +153,7 @@ module.exports = (req, res) => {
 									);
 							}
 						} else {
-							res.status(400).json({ message: "No Expenses found!" });
+							res.status(200).send([]);
 						}
 					})
 					.catch((err) =>

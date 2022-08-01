@@ -12,11 +12,13 @@ module.exports = (req, res) => {
 		.then((expenses) => {
 			const monthWiseExpense = {};
 
+			months.forEach((month) => {
+				monthWiseExpense[month] = 0;
+			});
+
 			// Group expenses by month
 			expenses.forEach((expense) => {
-				if (monthWiseExpense[months[expense.month - 1]])
-					monthWiseExpense[months[expense.month - 1]] += expense.amount;
-				else monthWiseExpense[months[expense.month - 1]] = expense.amount;
+				monthWiseExpense[months[expense.month - 1]] += expense.amount;
 			});
 
 			res.status(200).send(monthWiseExpense);

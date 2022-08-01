@@ -7,6 +7,7 @@ module.exports = (req, res) => {
 		.then((expenses) => {
 			const yearWiseExpense = {};
 
+			yearWiseExpense[new Date().getFullYear()] = 0;
 			// Group expenses by year
 			expenses.forEach((expense) => {
 				if (yearWiseExpense[expense.year])

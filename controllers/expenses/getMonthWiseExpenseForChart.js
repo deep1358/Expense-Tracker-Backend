@@ -21,7 +21,7 @@ const ModifyResponse = (expense, res) => {
 		month: months[month - 1],
 		amount,
 	}));
-	res.status(200).send(data);
+	res.status(200).json(data);
 };
 
 module.exports = (req, res) => {
