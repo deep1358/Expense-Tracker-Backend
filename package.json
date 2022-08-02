@@ -9,10 +9,13 @@
 		"passport-google-oauth20": "^2.0.0"
 	},
 	"devDependencies": {
+		"eslint": "^8.21.0",
 		"nodemon": "^2.0.16"
 	},
 	"scripts": {
 		"start": "nodemon index",
-		"populate": "node populate/index.js"
+		"populate": "node populate/index.js",
+		"lint": "eslint .",
+		"lint:fix": "eslint --fix"
 	}
 }
