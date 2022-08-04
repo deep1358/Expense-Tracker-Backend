@@ -29,17 +29,18 @@ app.use(
 app.use(
 	session({
 		secret: process.env.SESSION_SECRET,
-		resave: false,
-		saveUninitialized: false,
+		resave: !process.env.NODE_ENV === "production",
+		saveUninitialized: !process.env.NODE_ENV === "production",
 		cookie: {
 			maxAge: 1000 * 60 * 60 * 24 * 15,
+			sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+			secure: process.env.NODE_ENV === "production",
 		},
 	})
 );
 
 if (app.get("env") === "production") {
-	// Serve secure cookies, requires HTTPS
-	session.cookie.secure = true;
+	app.set("trust proxy", 1); //necessary to set up a cookie in production
 }
 
 // Passport
