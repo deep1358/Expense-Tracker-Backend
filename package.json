@@ -1,5 +1,6 @@
 {
 	"dependencies": {
+		"concurrently": "^7.3.0",
 		"cors": "^2.8.5",
 		"dotenv": "^16.0.1",
 		"express": "^4.18.1",
@@ -9,14 +10,14 @@
 		"passport-google-oauth20": "^2.0.0"
 	},
 	"devDependencies": {
-		"eslint": "^8.21.0",
 		"nodemon": "^2.0.16"
 	},
 	"scripts": {
 		"start": "node index.js",
-		"dev": "nodemon index",
+		"dev": "nodemon index --ignore frontend/",
 		"populate": "node populate/index.js",
-		"lint": "eslint .",
-		"lint:fix": "eslint --fix"
+		"frontend": "npm start --prefix frontend",
+		"concurrent": "concurrently \"npm run dev\" \"npm run frontend\"",
+		"frontend-install": "npm install --prefix frontend"
 	}
 }

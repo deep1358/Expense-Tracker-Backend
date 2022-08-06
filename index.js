@@ -49,13 +49,13 @@ app.use(passport.session());
 require("./config/passportConfig")(passport);
 
 // Routes
-app.use("/auth", require("./routes/auth"));
+app.use("/api/auth", require("./routes/auth"));
 
-app.use("/category", require("./routes/categories"));
+app.use("/api/category", require("./routes/categories"));
 
-app.use("/expense", require("./routes/expenses"));
+app.use("/api/expense", require("./routes/expenses"));
 
-app.use("/", (_req, res) => {
+app.use("/api", (_req, res) => {
 	res.send("<h1>Welcome to the Expense Tracker API :)</h1>");
 });
 

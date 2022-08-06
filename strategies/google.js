@@ -7,7 +7,7 @@ module.exports = (passport) => {
 			{
 				clientID: process.env.GOOGLE_CLIENT_ID,
 				clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-				callbackURL: `${process.env.BACKEND_URL}/auth/google/callback`,
+				callbackURL: `${process.env.BACKEND_URL}/api/auth/google/callback`,
 				passReqToCallback: true,
 			},
 			function (_req, _accessToken, _refreshToken, profile, done) {
