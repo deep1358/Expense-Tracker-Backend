@@ -1,6 +1,5 @@
 {
 	"dependencies": {
-		"concurrently": "^7.3.0",
 		"cors": "^2.8.5",
 		"dotenv": "^16.0.1",
 		"express": "^4.18.1",
@@ -18,11 +17,7 @@
 	},
 	"scripts": {
 		"start": "node index.js",
-		"dev": "nodemon index --ignore frontend/",
-		"populate": "node populate/index.js",
-		"frontend": "npm start --prefix frontend",
-		"concurrent": "concurrently \"npm run dev\" \"npm run frontend\"",
-		"frontend-install": "npm install --prefix frontend",
-		"heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix frontend && npm run build --prefix frontend"
+		"dev": "nodemon index",
+		"populate": "node populate/index.js"
 	}
 }
