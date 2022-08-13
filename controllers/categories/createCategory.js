@@ -6,23 +6,24 @@ module.exports = (req, res) => {
 	const { categoryName } = req.body;
 
 	// Check if category name contains only alphabets
-	if (!/^[a-zA-Z]+$/.test(categoryName))
-		return res
-			.status(400)
-			.json({ message: "Category name must be alphabetic" });
+	if (!/^[a-zA-Z]([a-zA-Z _-]*([a-zA-Z]))?$/.test(categoryName.trim()))
+		return res.status(400).json({ message: "Category name is invalid" });
 
 	// Check if category exists
-	if (categoryExists(categories, categoryName))
+	if (categoryExists(categories, categoryName.trim()))
 		return res.status(400).json({ message: "Category already exists" });
 
 	// Check if category name is too long
-	if (categoryName.length > 20)
+	if (categoryName.trim().length > 20)
 		return res
 			.status(400)
 			.json({ message: "Maximum category name length must be of 20" });
-	User.updateOne({ userEmail }, { $addToSet: { categories: categoryName } })
+	User.updateOne(
+		{ userEmail },
+		{ $addToSet: { categories: categoryName.trim() } }
+	)
 		.then(() => {
-			categories.push(categoryName);
+			categories.push(categoryName.trim());
 
 			return res.status(200).json({
 				message: "Category created successfully",

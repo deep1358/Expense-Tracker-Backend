@@ -7,34 +7,34 @@ module.exports = (req, res) => {
 	const { oldValue, newValue } = req.body;
 
 	// Check if category name contains only alphabets
-	if (!/^[a-zA-Z]+$/.test(newValue))
+	if (!/^[a-zA-Z]([a-zA-Z _-]*([a-zA-Z]))?$/.test(newValue.trim()))
 		return res
 			.status(400)
 			.json({ message: "Category name must be alphabetic" });
 
-	if (categoryExists(categories, newValue))
+	if (categoryExists(categories, newValue.trim()))
 		// Check if category exists
 		return res.status(400).json({ message: "Category already exists" });
 
 	// Check if category name is too long
-	if (newValue.length > 20)
+	if (newValue.trim().length > 20)
 		return res
 			.status(400)
 			.json({ message: "Maximum category name length must be of 20" });
 	User.updateOne(
 		{ userEmail, categories: oldValue },
-		{ $set: { "categories.$": newValue } }
+		{ $set: { "categories.$": newValue.trim() } }
 	)
 		.then(() => {
 			// update categories in expense too
 			Expense.updateMany(
 				{ user_id: _id, category: oldValue },
-				{ $set: { category: newValue } }
+				{ $set: { category: newValue.trim() } }
 			)
 				.then(() => {
 					// Update newValue with oldValue in categories to session
 					req.user.categories = categories.map((category) => {
-						if (category === oldValue) return newValue;
+						if (category === oldValue) return newValue.trim();
 						return category;
 					});
 
