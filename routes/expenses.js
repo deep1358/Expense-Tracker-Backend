@@ -20,7 +20,7 @@ router.patch(
 
 // Delete expense
 router.delete(
-	"/:id",
+	"/:_id",
 	Authmiddleware,
 	require("../controllers/expenses/deleteExpense")
 );
@@ -76,7 +76,7 @@ router.get(
 
 // Get expenses with specific id
 router.get(
-	"/:id",
+	"/:_id",
 	Authmiddleware,
 	require("../controllers/expenses/getExpense")
 );

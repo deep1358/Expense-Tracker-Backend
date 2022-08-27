@@ -4,9 +4,10 @@ const categoryExists = require("../../utils/categoryExists");
 
 module.exports = (req, res) => {
 	const { category, amount, note, _id } = req.body;
+	const { user_id } = req.headers;
 
 	// Check if user exists
-	User.findById(req.user._id)
+	User.findById(user_id)
 		.then((userRes) => {
 			if (userRes) {
 				// Check if category exists

@@ -1,8 +1,6 @@
 /* eslint-disable no-undef */
 const express = require("express");
 const cors = require("cors");
-const passport = require("passport");
-const session = require("express-session");
 require("dotenv").config();
 
 // App initialization
@@ -19,35 +17,11 @@ app.use(express.json());
 // CORS
 app.use(
 	cors({
-		origin: [process.env.FRONTEND_URL, "http://localhost:3000"],
+		origin: process.env.FRONTEND_URL,
 		methods: ["GET", "POST", "PATCH", "DELETE"],
 		credentials: true,
 	})
 );
-
-// Session
-app.use(
-	session({
-		secret: process.env.SESSION_SECRET,
-		resave: !process.env.NODE_ENV === "production",
-		saveUninitialized: !process.env.NODE_ENV === "production",
-		cookie: {
-			maxAge: 1000 * 60 * 60 * 24 * 30,
-			sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
-			secure: process.env.NODE_ENV === "production",
-			httpOnly: !process.env.NODE_ENV === "production",
-		},
-	})
-);
-
-if (app.get("env") === "production") {
-	app.set("trust proxy", 1); //necessary to set up a cookie in production
-}
-
-// Passport
-app.use(passport.initialize());
-app.use(passport.session());
-require("./config/passportConfig")(passport);
 
 // Routes
 app.use("/api/auth", require("./routes/auth"));

@@ -33,14 +33,14 @@ const ModifyResponse = (expense, res, years, category = "") => {
 };
 
 module.exports = (req, res) => {
-	const { _id } = req.user;
+	const { user_id } = req.headers;
 	const { category, month, day } = req.query;
 
 	// Check if user exists
-	User.findById(_id)
+	User.findById(user_id)
 		.then((userRes) => {
 			if (userRes) {
-				Expense.find({ user_id: _id }, { year: 1, _id: 0 })
+				Expense.find({ user_id }, { year: 1, _id: 0 })
 					.then((expenses) => {
 						if (expenses.length > 0) {
 							// Get all unique years from the database
@@ -51,7 +51,7 @@ module.exports = (req, res) => {
 								month === "All" &&
 								day === "All"
 							) {
-								Expense.find({ user_id: _id }, { year: 1, amount: 1 })
+								Expense.find({ user_id }, { year: 1, amount: 1 })
 									.then((expense) => {
 										ModifyResponse(expense, res, years);
 									})
@@ -61,10 +61,7 @@ module.exports = (req, res) => {
 											.json({ message: err.message || "Error" })
 									);
 							} else if (category === "All" && month === "All") {
-								Expense.find(
-									{ user_id: _id, day },
-									{ year: 1, amount: 1 }
-								)
+								Expense.find({ user_id, day }, { year: 1, amount: 1 })
 									.then((expense) => {
 										ModifyResponse(expense, res, years);
 									})
@@ -74,10 +71,7 @@ module.exports = (req, res) => {
 											.json({ message: err.message || "Error" })
 									);
 							} else if (category === "All" && day === "All") {
-								Expense.find(
-									{ user_id: _id, month },
-									{ year: 1, amount: 1 }
-								)
+								Expense.find({ user_id, month }, { year: 1, amount: 1 })
 									.then((expense) => {
 										ModifyResponse(expense, res, years);
 									})
@@ -88,7 +82,7 @@ module.exports = (req, res) => {
 									);
 							} else if (month === "All" && day === "All") {
 								Expense.find(
-									{ user_id: _id, category },
+									{ user_id, category },
 									{ year: 1, amount: 1, category: 1 }
 								)
 									.then((expense) => {
@@ -101,7 +95,7 @@ module.exports = (req, res) => {
 									);
 							} else if (month === "All") {
 								Expense.find(
-									{ user_id: _id, category, day },
+									{ user_id, category, day },
 									{ year: 1, amount: 1, category: 1 }
 								)
 									.then((expense) => {
@@ -114,7 +108,7 @@ module.exports = (req, res) => {
 									);
 							} else if (day === "All") {
 								Expense.find(
-									{ user_id: _id, category, month },
+									{ user_id, category, month },
 									{ year: 1, amount: 1, category: 1 }
 								)
 									.then((expense) => {
@@ -127,7 +121,7 @@ module.exports = (req, res) => {
 									);
 							} else if (category === "All") {
 								Expense.find(
-									{ user_id: _id, month, day },
+									{ user_id, month, day },
 									{ year: 1, amount: 1 }
 								)
 									.then((expense) => {
@@ -140,7 +134,7 @@ module.exports = (req, res) => {
 									);
 							} else {
 								Expense.find(
-									{ user_id: _id, category, month, day },
+									{ user_id, category, month, day },
 									{ year: 1, amount: 1, category: 1 }
 								)
 									.then((expense) => {

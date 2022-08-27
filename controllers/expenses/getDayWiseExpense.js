@@ -3,7 +3,7 @@ const months = require("../../utils/months");
 
 module.exports = (req, res) => {
 	const { year, month } = req.params;
-	const { _id } = req.user;
+	const { user_id } = req.headers;
 
 	// Get month index
 	const monthIndex = months.indexOf(month);
@@ -12,7 +12,7 @@ module.exports = (req, res) => {
 		return res.status(400).json({ message: "Invalid month" });
 
 	Expense.find(
-		{ year, month: monthIndex + 1, user_id: _id },
+		{ year, month: monthIndex + 1, user_id },
 		{ user_id: 0, __v: 0 }
 	)
 		.sort({ day: -1 }) // Sort by day in descending order

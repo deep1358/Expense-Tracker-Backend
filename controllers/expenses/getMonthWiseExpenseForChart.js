@@ -25,15 +25,15 @@ const ModifyResponse = (expense, res) => {
 };
 
 module.exports = (req, res) => {
-	const { _id } = req.user;
+	const { user_id } = req.headers;
 	const { year, category, day } = req.query;
 
 	// Check if user exists
-	User.findById(_id)
+	User.findById(user_id)
 		.then((userRes) => {
 			if (userRes) {
 				if (year === "All" && category === "All" && day === "All") {
-					Expense.find({ user_id: _id }, { month: 1, amount: 1 })
+					Expense.find({ user_id }, { month: 1, amount: 1 })
 						.then((expense) => {
 							ModifyResponse(expense, res);
 						})
@@ -41,7 +41,7 @@ module.exports = (req, res) => {
 							res.status(400).json({ message: err.message || "Error" })
 						);
 				} else if (year === "All" && category === "All") {
-					Expense.find({ user_id: _id, day }, { month: 1, amount: 1 })
+					Expense.find({ user_id, day }, { month: 1, amount: 1 })
 						.then((expense) => {
 							ModifyResponse(expense, res);
 						})
@@ -49,7 +49,7 @@ module.exports = (req, res) => {
 							res.status(400).json({ message: err.message || "Error" })
 						);
 				} else if (year === "All" && day === "All") {
-					Expense.find({ user_id: _id, category }, { month: 1, amount: 1 })
+					Expense.find({ user_id, category }, { month: 1, amount: 1 })
 						.then((expense) => {
 							ModifyResponse(expense, res);
 						})
@@ -57,7 +57,7 @@ module.exports = (req, res) => {
 							res.status(400).json({ message: err.message || "Error" })
 						);
 				} else if (category === "All" && day === "All") {
-					Expense.find({ user_id: _id, year }, { month: 1, amount: 1 })
+					Expense.find({ user_id, year }, { month: 1, amount: 1 })
 						.then((expense) => {
 							ModifyResponse(expense, res);
 						})
@@ -66,7 +66,7 @@ module.exports = (req, res) => {
 						);
 				} else if (day === "All") {
 					Expense.find(
-						{ user_id: _id, year, category },
+						{ user_id, year, category },
 						{ month: 1, amount: 1 }
 					)
 						.then((expense) => {
@@ -76,10 +76,7 @@ module.exports = (req, res) => {
 							res.status(400).json({ message: err.message || "Error" })
 						);
 				} else if (category === "All") {
-					Expense.find(
-						{ user_id: _id, year, day },
-						{ month: 1, amount: 1 }
-					)
+					Expense.find({ user_id, year, day }, { month: 1, amount: 1 })
 						.then((expense) => {
 							ModifyResponse(expense, res);
 						})
@@ -87,10 +84,7 @@ module.exports = (req, res) => {
 							res.status(400).json({ message: err.message || "Error" })
 						);
 				} else if (year === "All") {
-					Expense.find(
-						{ user_id: _id, category, day },
-						{ month: 1, amount: 1 }
-					)
+					Expense.find({ user_id, category, day }, { month: 1, amount: 1 })
 						.then((expense) => {
 							ModifyResponse(expense, res);
 						})
@@ -99,7 +93,7 @@ module.exports = (req, res) => {
 						);
 				} else {
 					Expense.find(
-						{ user_id: _id, year, category, day },
+						{ user_id, year, category, day },
 						{ month: 1, amount: 1 }
 					)
 						.then((expense) => {

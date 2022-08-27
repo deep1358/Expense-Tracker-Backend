@@ -1,9 +1,9 @@
 const Expense = require("../../db/models/Expense");
 
 module.exports = (req, res) => {
-	const { _id } = req.user;
+	const { user_id } = req.headers;
 
-	Expense.find({ user_id: _id }, { year: 1, amount: 1 })
+	Expense.find({ user_id }, { year: 1, amount: 1 })
 		.then((expenses) => {
 			const yearWiseExpense = {};
 
