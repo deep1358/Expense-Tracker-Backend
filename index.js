@@ -30,7 +30,7 @@ app.use("/api/category", require("./routes/categories"));
 
 app.use("/api/expense", require("./routes/expenses"));
 
-app.use("/api", (_req, res) => {
+app.use("/", (_req, res) => {
 	res.send("<h1>Welcome to the Expense Tracker API :)</h1>");
 });
 
