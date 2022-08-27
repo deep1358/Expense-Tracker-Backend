@@ -1,25 +1,30 @@
 const User = require("../../db/models/User");
 
-module.exports = (profile, done) => {
+module.exports = (req, res) => {
 	// Check if user exists
-	User.findOne({ userEmail: profile.emails[0].value }, (err, user) => {
-		if (err) return done(err);
+
+	const { userEmail, userName, userAvatar } = req.body;
+
+	User.findOne({ userEmail }, (err, user) => {
+		if (err) res.status(500).json({ message: err });
 
 		// If user exists, return user
-		if (user) return done(null, user);
+		if (user) return res.status(200).json({ message: "User exists", user });
 
 		// If user does not exist, create one
 		User.create({
-			userName: profile.displayName,
-			userEmail: profile.emails[0].value,
-			userAvatar: profile.photos[0].value,
+			userName,
+			userEmail,
+			userAvatar,
 			categories: ["Food", "Transport", "Other"],
 		})
 			.then((user) => {
-				return done(null, user);
+				return res
+					.status(200)
+					.json({ message: "User created successfully", user });
 			})
 			.catch((err) => {
-				return done(err);
+				return res.status(500).json({ message: err });
 			});
 	});
 };

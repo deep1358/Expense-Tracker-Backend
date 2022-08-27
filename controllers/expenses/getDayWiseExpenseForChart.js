@@ -32,11 +32,11 @@ const ModifyResponse = (month, year, expense, res) => {
 };
 
 module.exports = (req, res) => {
-	const { _id } = req.user;
+	const { user_id } = req.headers;
 	const { year, month, category } = req.query;
 
 	// Check if user exists
-	User.findById(_id)
+	User.findById(user_id)
 		.then((userRes) => {
 			if (userRes) {
 				if (month === "All" || year === "All") {
@@ -45,10 +45,7 @@ module.exports = (req, res) => {
 							"Please select a month and year for Day wise expense chart",
 					});
 				} else if (category === "All") {
-					Expense.find(
-						{ user_id: _id, year, month },
-						{ day: 1, amount: 1 }
-					)
+					Expense.find({ user_id, year, month }, { day: 1, amount: 1 })
 						.then((expense) => {
 							ModifyResponse(month, year, expense, res);
 						})
@@ -57,7 +54,7 @@ module.exports = (req, res) => {
 						);
 				} else {
 					Expense.find(
-						{ user_id: _id, year, month, category },
+						{ user_id, year, month, category },
 						{ day: 1, amount: 1 }
 					)
 						.then((expense) => {

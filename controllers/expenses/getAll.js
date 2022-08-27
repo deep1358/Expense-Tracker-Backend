@@ -2,13 +2,13 @@ const Expense = require("../../db/models/Expense");
 const User = require("../../db/models/User");
 
 module.exports = (req, res) => {
-	const { _id } = req.user;
+	const { user_id } = req.headers;
 
 	// Check if user exists
-	User.findById(_id)
+	User.findById(user_id)
 		.then((userRes) => {
 			if (userRes)
-				Expense.find({ user_id: _id })
+				Expense.find({ user_id })
 					// sort in descending time order
 					.sort({ createdAt: -1 })
 					.then((expenses) => {

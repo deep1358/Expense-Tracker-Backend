@@ -2,11 +2,11 @@ const AuthMiddleware = require("../middlewares/auth");
 
 const router = require("express").Router();
 
+// Create user
+router.post("/createUser", require("../controllers/auth/createUser"));
+
 // Get user data from session
 router.post("/user", require("../controllers/auth/getUser"));
-
-// Logout
-router.post("/logout", AuthMiddleware, require("../controllers/auth/logout"));
 
 // Delete user
 router.delete(
