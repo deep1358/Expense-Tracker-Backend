@@ -3,7 +3,7 @@ const User = require("../../db/models/User");
 const categoryExists = require("../../utils/categoryExists");
 
 module.exports = (req, res) => {
-	const { category, amount, note, _id } = req.body;
+	const { category, amount, note, _id, payment_mode } = req.body;
 	const { user_id } = req.headers;
 
 	// Check if user exists
@@ -16,6 +16,7 @@ module.exports = (req, res) => {
 						category,
 						amount,
 						note,
+						payment_mode,
 					})
 						.then(() => {
 							res.status(200).json({
