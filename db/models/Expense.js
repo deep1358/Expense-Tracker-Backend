@@ -15,6 +15,11 @@ const ExpenseSchema = new Schema({
 		type: String,
 		required: false,
 	},
+	payment_mode: {
+		type: String,
+		required: true,
+		default: "Cash",
+	},
 	user_id: {
 		type: Schema.Types.ObjectId,
 		ref: "User",

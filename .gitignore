@@ -2,3 +2,4 @@
 node_modules/
 .pnp.*
 EmailSend.js
+populate/fakedata.js
