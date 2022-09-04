@@ -9,6 +9,8 @@ module.exports = (req, res) => {
 	User.findById(user_id)
 		.then((userRes) => {
 			if (userRes) {
+				// let { categories } = userRes;
+
 				// Find expense based on query params
 				Expense.aggregate([
 					{
@@ -16,23 +18,22 @@ module.exports = (req, res) => {
 					},
 					{
 						$group: {
-							_id: "$year",
+							_id: "$payment_mode",
 							amount: { $sum: "$amount" },
 						},
 					},
-					{
-						$sort: { _id: 1 },
-					},
 				])
 					.then((expenses) => {
-						// Change key _id to year
+						console.log({ expenses });
+
+						// Change key _id to payment_mode
 						expenses.forEach((expense) => {
 							return delete Object.assign(expense, {
-								["year"]: expense["_id"],
+								["payment_mode"]: expense["_id"],
 							})["_id"];
 						});
 
-						return res.status(200).json(expenses);
+						res.status(200).send(expenses);
 					})
 					.catch((err) =>
 						res.status(400).json({ message: err.message || "Error" })
