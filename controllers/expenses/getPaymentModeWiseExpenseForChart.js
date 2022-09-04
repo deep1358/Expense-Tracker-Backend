@@ -24,8 +24,6 @@ module.exports = (req, res) => {
 					},
 				])
 					.then((expenses) => {
-						console.log({ expenses });
-
 						// Change key _id to payment_mode
 						expenses.forEach((expense) => {
 							return delete Object.assign(expense, {
