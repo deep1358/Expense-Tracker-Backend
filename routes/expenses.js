@@ -53,6 +53,13 @@ router.get(
 	require("../controllers/expenses/getCategoryWiseExpenseForChart")
 );
 
+// Get expenses for chart by payment mode
+router.get(
+	"/chart/payment_mode",
+	Authmiddleware,
+	require("../controllers/expenses/getPaymentModeWiseExpenseForChart")
+);
+
 // Get expenses for chart by year
 router.get(
 	"/chart/year",
