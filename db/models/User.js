@@ -20,6 +20,10 @@ const userSchema = new Schema({
 		type: [String],
 		required: true,
 	},
+	payment_modes: {
+		type: [String],
+		required: false,
+	},
 });
 
 const User = mongoose.model("User", userSchema);

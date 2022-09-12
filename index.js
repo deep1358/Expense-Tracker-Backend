@@ -28,6 +28,8 @@ app.use("/api/auth", require("./routes/auth"));
 
 app.use("/api/category", require("./routes/categories"));
 
+app.use("/api/payment_mode", require("./routes/payment_modes"));
+
 app.use("/api/expense", require("./routes/expenses"));
 
 app.use("/", (_req, res) => {
