@@ -8,14 +8,14 @@ router.post(
 	require("../controllers/payment_modes/createPaymentMode")
 );
 
-// Update Payment
+// Update Payment Mode
 router.patch(
 	"/",
 	AuthMiddleware,
 	require("../controllers/payment_modes/updatePaymentMode")
 );
 
-// Delete Payment
+// Delete Payment Mode
 router.delete(
 	"/:payment_mode",
 	AuthMiddleware,

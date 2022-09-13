@@ -1,154 +1,38 @@
 const Expense = require("../../db/models/Expense");
 const User = require("../../db/models/User");
-
-const ModifyResponse = (expense, res, years, category = "") => {
-	let data = [],
-		map = new Map(); // Map to store year and amount
-
-	// Sort years in descending order
-	years.sort((a, b) => a - b);
-
-	// Set map with year to amount 0 initially
-	years.forEach((year) => {
-		map.set(year, 0);
-	});
-
-	let filteredExpense = expense;
-
-	// Filter expense by category if category is specified
-	if (category !== "")
-		filteredExpense = expense.filter((exp) => exp.category === category);
-
-	// Add amount to year
-	filteredExpense.forEach((el) => {
-		map.set(el.year, map.get(el.year) + el.amount);
-	});
-
-	// Convert map to array
-	data = Array.from(map, ([year, amount]) => ({
-		year,
-		amount,
-	}));
-	res.status(200).json(data);
-};
+const QueryObject = require("../../utils/QueryObject");
 
 module.exports = (req, res) => {
 	const { user_id } = req.headers;
-	const { category, month, day } = req.query;
 
 	// Check if user exists
 	User.findById(user_id)
 		.then((userRes) => {
 			if (userRes) {
-				Expense.find({ user_id }, { year: 1, _id: 0 })
+				// Find expense based on query params
+				Expense.aggregate([
+					{
+						$match: QueryObject(req.query, user_id),
+					},
+					{
+						$group: {
+							_id: "$year",
+							amount: { $sum: "$amount" },
+						},
+					},
+					{
+						$sort: { _id: 1 },
+					},
+				])
 					.then((expenses) => {
-						if (expenses.length > 0) {
-							// Get all unique years from the database
-							let years = [...new Set(expenses.map((exp) => exp.year))];
+						// Change key _id to year
+						expenses.forEach((expense) => {
+							return delete Object.assign(expense, {
+								["year"]: expense["_id"],
+							})["_id"];
+						});
 
-							if (
-								category === "All" &&
-								month === "All" &&
-								day === "All"
-							) {
-								Expense.find({ user_id }, { year: 1, amount: 1 })
-									.then((expense) => {
-										ModifyResponse(expense, res, years);
-									})
-									.catch((err) =>
-										res
-											.status(400)
-											.json({ message: err.message || "Error" })
-									);
-							} else if (category === "All" && month === "All") {
-								Expense.find({ user_id, day }, { year: 1, amount: 1 })
-									.then((expense) => {
-										ModifyResponse(expense, res, years);
-									})
-									.catch((err) =>
-										res
-											.status(400)
-											.json({ message: err.message || "Error" })
-									);
-							} else if (category === "All" && day === "All") {
-								Expense.find({ user_id, month }, { year: 1, amount: 1 })
-									.then((expense) => {
-										ModifyResponse(expense, res, years);
-									})
-									.catch((err) =>
-										res
-											.status(400)
-											.json({ message: err.message || "Error" })
-									);
-							} else if (month === "All" && day === "All") {
-								Expense.find(
-									{ user_id, category },
-									{ year: 1, amount: 1, category: 1 }
-								)
-									.then((expense) => {
-										ModifyResponse(expense, res, years, category);
-									})
-									.catch((err) =>
-										res
-											.status(400)
-											.json({ message: err.message || "Error" })
-									);
-							} else if (month === "All") {
-								Expense.find(
-									{ user_id, category, day },
-									{ year: 1, amount: 1, category: 1 }
-								)
-									.then((expense) => {
-										ModifyResponse(expense, res, years, category);
-									})
-									.catch((err) =>
-										res
-											.status(400)
-											.json({ message: err.message || "Error" })
-									);
-							} else if (day === "All") {
-								Expense.find(
-									{ user_id, category, month },
-									{ year: 1, amount: 1, category: 1 }
-								)
-									.then((expense) => {
-										ModifyResponse(expense, res, years, category);
-									})
-									.catch((err) =>
-										res
-											.status(400)
-											.json({ message: err.message || "Error" })
-									);
-							} else if (category === "All") {
-								Expense.find(
-									{ user_id, month, day },
-									{ year: 1, amount: 1 }
-								)
-									.then((expense) => {
-										ModifyResponse(expense, res, years);
-									})
-									.catch((err) =>
-										res
-											.status(400)
-											.json({ message: err.message || "Error" })
-									);
-							} else {
-								Expense.find(
-									{ user_id, category, month, day },
-									{ year: 1, amount: 1, category: 1 }
-								)
-									.then((expense) => {
-										ModifyResponse(expense, res, years, category);
-									})
-									.catch((err) =>
-										res
-											.status(400)
-											.json({ message: err.message || "Error" })
-									);
-							}
-						} else {
-							res.status(200).send([]);
-						}
+						return res.status(200).json(expenses);
 					})
 					.catch((err) =>
 						res.status(400).json({ message: err.message || "Error" })
