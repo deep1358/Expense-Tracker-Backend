@@ -9,8 +9,6 @@ module.exports = (req, res) => {
 	User.findById(user_id)
 		.then((userRes) => {
 			if (userRes) {
-				// let { categories } = userRes;
-
 				// Find expense based on query params
 				Expense.aggregate([
 					{
