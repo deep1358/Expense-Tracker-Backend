@@ -27,20 +27,9 @@ module.exports = (req, res) => {
 
 						// Change key _id to month
 						expenses.forEach((expense) => {
-							monthsFromRes.push(expense._id);
 							return delete Object.assign(expense, {
 								["month"]: expense["_id"],
 							})["_id"];
-						});
-
-						// Add months with 0 amount if not present in response
-						months.forEach((_month, index) => {
-							if (!monthsFromRes.includes(index + 1)) {
-								expenses.push({
-									amount: 0,
-									month: index + 1,
-								});
-							}
 						});
 
 						// Sort by month and Convert month number to month name

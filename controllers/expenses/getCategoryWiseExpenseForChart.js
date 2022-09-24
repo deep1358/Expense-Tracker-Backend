@@ -24,30 +24,14 @@ module.exports = (req, res) => {
 					},
 				])
 					.then((expenses) => {
-						const categoriesFromRes = [];
-
 						// Change key _id to category and add category name to categoriesFromRes
 						expenses.forEach((expense) => {
-							categoriesFromRes.push(expense._id);
 							return delete Object.assign(expense, {
 								["category"]: expense["_id"],
 							})["_id"];
 						});
 
-						// Get categories which are not present in expenses
-						const nonIntersectedCategories = categories.filter(
-							(obj) => categoriesFromRes.indexOf(obj) == -1
-						);
-
-						// Add categories which are not present in expenses
-						nonIntersectedCategories.forEach((category) => {
-							expenses.push({
-								category,
-								amount: 0,
-							});
-						});
-
-						res.status(200).send(expenses);
+						return res.status(200).send(expenses);
 					})
 					.catch((err) =>
 						res.status(400).json({ message: err.message || "Error" })
