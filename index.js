@@ -40,7 +40,7 @@ app.use("/api/payment_mode", require("./routes/payment_modes"));
 app.use("/api/expense", require("./routes/expenses"));
 
 app.use("/", (_req, res) => {
-	res.send("<h1>Welcome to the Expense Tracker API :)</h1>");
+	res.send("<h1>Welcome to the Expense Tracker API :()</h1>");
 });
 
 // Listen on port
