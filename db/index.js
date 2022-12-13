@@ -4,6 +4,7 @@ require("./models/Expense");
 
 exports.connect = () => {
 	// Connection to Mongo DB
+	mongoose.set('strictQuery', true);
 	return mongoose.connect(
 		process.env.DB_CONNECTION_URL,
 		{

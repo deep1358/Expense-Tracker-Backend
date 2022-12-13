@@ -15,4 +15,9 @@ router.delete(
 	require("../controllers/auth/deleteUser")
 );
 
+router.get('/me',(req,res)=>{
+	console.log("Hello");
+	res.send("Hello");
+})
+
 module.exports = router;
