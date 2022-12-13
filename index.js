@@ -23,6 +23,13 @@ app.use(
 	})
 );
 
+
+
+app.use('/me',(req,res)=>{
+	console.log("Hello");
+	res.send("Hello");
+})
+
 // Routes
 app.use("/api/auth", require("./routes/auth"));
 
