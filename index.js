@@ -23,13 +23,6 @@ app.use(
 	})
 );
 
-
-
-app.use('/me',(req,res)=>{
-	console.log("Hello");
-	res.send("Hello");
-})
-
 // Routes
 app.use("/api/auth", require("./routes/auth"));
 
@@ -39,8 +32,10 @@ app.use("/api/payment_mode", require("./routes/payment_modes"));
 
 app.use("/api/expense", require("./routes/expenses"));
 
+app.use("/api/email", require("./routes/email"));
+
 app.use("/", (_req, res) => {
-	res.send("<h1>Welcome to the Expense Tracker API :()</h1>");
+	res.send("<h1>Welcome to the Expense Tracker API :)</h1>");
 });
 
 // Listen on port
