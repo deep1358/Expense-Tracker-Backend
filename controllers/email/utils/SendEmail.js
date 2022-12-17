@@ -24,7 +24,7 @@ module.exports = async (
 
             const messageOptions = {
                 from: `Expense Tracker <${process.env.NODEMAILER_EMAIL_ID}>`,
-                to: process.env.NODEMAILER_EMAIL_ID,
+                to: userEmail,
                 subject,
                 html: require("./EmailTemplate")(
                     totalExpense,
