@@ -36,12 +36,17 @@ module.exports = async (_req, res) => {
             categoryWiseExpense,
             paymentModeWiseExpense,
         });
-        require("./utils/SendEmail")(
-            userEmail,
-            totalExpense,
-            categoryWiseExpense,
-            paymentModeWiseExpense
-        );
+        try {
+            const result = await require("./utils/SendEmail")(
+                userEmail,
+                totalExpense,
+                categoryWiseExpense,
+                paymentModeWiseExpense
+            );
+            console.log(result);
+        } catch (err) {
+            console.log(err);
+        }
     }
     res.json(response);
 };
