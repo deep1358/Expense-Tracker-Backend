@@ -16,7 +16,7 @@ module.exports = async (
                 pass: process.env.NODEMAILER_EMAIL_PASSWORD,
             },
             host: "smtp.gmail.com",
-            port: 465,
+            port: 587,
             secureConnection: true,
             secure: true, // use SSL
         });
