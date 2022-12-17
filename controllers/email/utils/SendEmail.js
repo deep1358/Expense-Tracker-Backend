@@ -33,14 +33,14 @@ module.exports = (
         ),
     };
 
-    console.log(messageOptions);
-
+    console.log("start");
     transporter.sendMail(messageOptions, function (error, info) {
-        console.log(info);
+        console.log(info, error);
         if (error) {
             console.log(error);
         } else {
             console.log(`Email has successfully sent!`);
         }
     });
+    console.log("end");
 };
