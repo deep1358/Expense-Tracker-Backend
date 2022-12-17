@@ -7,7 +7,8 @@ module.exports = async (_req, res) => {
     const categoryWiseQuery = { year, month, day: "All", payment_mode: "All" };
     const paymentModeWiseQuery = { year, month, day: "All", category: "All" };
 
-    const response = [];
+    const response = [],
+        results = [];
 
     // Loop through all users and get their monthly report data
     for (const user of users) {
@@ -37,16 +38,17 @@ module.exports = async (_req, res) => {
             paymentModeWiseExpense,
         });
         try {
-            const result = await require("./utils/SendEmail")(
-                userEmail,
-                totalExpense,
-                categoryWiseExpense,
-                paymentModeWiseExpense
+            results.push(
+                await require("./utils/SendEmail")(
+                    userEmail,
+                    totalExpense,
+                    categoryWiseExpense,
+                    paymentModeWiseExpense
+                )
             );
-            console.log(result);
         } catch (err) {
-            console.log(err);
+            results.push(err);
         }
     }
-    res.json(response);
+    res.json({ results });
 };
