@@ -4,7 +4,7 @@ module.exports = (
     totalExpense,
     categoryWiseExpense,
     paymentModeWiseExpense,
-    months
+    month
 ) => `
 <html>
     <head>
@@ -47,12 +47,7 @@ module.exports = (
                                                         <tr>
                                                             <td style="padding:0 20px;">
                                                                 <p style="text-align:left; font-size:1.3rem;">
-                                                                    Thank you for using Expense Tracker. Here is your expense report for the month of ${
-                                                                        months[
-                                                                            new Date().getMonth() -
-                                                                                1
-                                                                        ]
-                                                                    }.
+                                                                    Thank you for using Expense Tracker. Here is your expense report for the month of ${month}.
                                                                 </p>
                                                             </td>
                                                         </tr>

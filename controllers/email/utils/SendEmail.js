@@ -23,11 +23,11 @@ module.exports = async (
             subject: `Expense Report for ${
                 months[new Date().getMonth() - 1]
             } ${new Date().getFullYear()}`,
-            html: require("./utils/EmailTemplate")(
-                userEmail,
+            html: require("./EmailTemplate")(
                 totalExpense,
                 categoryWiseExpense,
-                paymentModeWiseExpense
+                paymentModeWiseExpense,
+                months[new Date().getMonth() - 1]
             ),
         };
 
