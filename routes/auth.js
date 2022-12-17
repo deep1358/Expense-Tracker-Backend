@@ -10,14 +10,9 @@ router.post("/user", require("../controllers/auth/getUser"));
 
 // Delete user
 router.delete(
-	"/user",
-	AuthMiddleware,
-	require("../controllers/auth/deleteUser")
+    "/user",
+    AuthMiddleware,
+    require("../controllers/auth/deleteUser")
 );
-
-router.get('/me',(req,res)=>{
-	console.log("Hello");
-	res.send("Hello");
-})
 
 module.exports = router;
