@@ -1,11 +1,13 @@
 const nodemailer = require("nodemailer");
-const months = require("../../../utils/months");
 
 module.exports = async (
     userEmail,
+    subject,
+    message,
     totalExpense,
     categoryWiseExpense,
-    paymentModeWiseExpense
+    paymentModeWiseExpense,
+    monthWiseExpense
 ) =>
     new Promise(async (resolve, reject) => {
         try {
@@ -18,19 +20,16 @@ module.exports = async (
                 secure: true, // use SSL
             });
 
-            const subject = `Expense Report for ${
-                months[new Date().getMonth() - 1]
-            } ${new Date().getFullYear()}`;
-
             const messageOptions = {
                 from: `Expense Tracker <${process.env.NODEMAILER_EMAIL_ID}>`,
-                to: userEmail,
+                to: process.env.NODEMAILER_EMAIL_ID,
                 subject,
                 html: require("./EmailTemplate")(
                     totalExpense,
                     categoryWiseExpense,
                     paymentModeWiseExpense,
-                    months[new Date().getMonth() - 1]
+                    message,
+                    monthWiseExpense
                 ),
             };
 

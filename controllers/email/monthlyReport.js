@@ -1,3 +1,5 @@
+const months = require("../../utils/months");
+
 module.exports = async (_req, res) => {
     const users = await require("./utils/getAllUsersEmailAndID")();
 
@@ -37,10 +39,20 @@ module.exports = async (_req, res) => {
             categoryWiseExpense,
             paymentModeWiseExpense,
         });
+
+        const subject = `Expense Report for ${
+            months[new Date().getMonth() - 1]
+        } ${new Date().getFullYear()}`;
+        const message = `Thank you for using Expense Tracker. Here is your expense report for the month of ${
+            months[new Date().getMonth() - 1]
+        } ${new Date().getFullYear()}.`;
+
         try {
             results.push(
                 await require("./utils/SendEmail")(
                     userEmail,
+                    subject,
+                    message,
                     totalExpense,
                     categoryWiseExpense,
                     paymentModeWiseExpense
@@ -50,5 +62,5 @@ module.exports = async (_req, res) => {
             results.push(err);
         }
     }
-    res.json({ results });
+    res.status(200).json({ results });
 };

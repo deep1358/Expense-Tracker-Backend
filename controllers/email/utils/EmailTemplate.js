@@ -4,7 +4,8 @@ module.exports = (
     totalExpense,
     categoryWiseExpense,
     paymentModeWiseExpense,
-    month
+    message,
+    monthWiseExpense = []
 ) => `
 <html>
     <head>
@@ -47,20 +48,82 @@ module.exports = (
                                                         <tr>
                                                             <td style="padding:0 20px;">
                                                                 <p style="text-align:left; font-size:1.3rem;">
-                                                                    Thank you for using Expense Tracker. Here is your expense report for the month of ${month}.
+                                                                    ${message}
                                                                 </p>
                                                             </td>
                                                         </tr>
+                                                        ${
+                                                            monthWiseExpense.length >
+                                                            0
+                                                                ? `
+                                                                <tr>
+                                                                    <td style="padding:20px 0;">
+                                                                        <div style="border-radius: 10px; padding:10px 0;">
+                                                                            <h3 style="font-size:1.5rem;">
+                                                                                Month Wise Expense
+                                                                            </h3>
+                                                                            <table style="font-size: 1.2rem; width:90%; margin: 0 auto;" 
+                                                                                role="presentation"
+                                                                                cellspacing="5"
+                                                                                cellpadding="5"
+                                                                                >
+                                                                                <thead>
+                                                                                    <tr>
+                                                                                        <th>Month</th>
+                                                                                        <th>Amount (in ₹)</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody>
+                                                                                    <tr>
+                                                                                        <td colspan="2" style="border-bottom: 1px solid #00b89a4d;"></td>
+                                                                                    </tr>
+                                                                                    ${monthWiseExpense
+                                                                                        ?.map(
+                                                                                            (
+                                                                                                {
+                                                                                                    month,
+                                                                                                    amount,
+                                                                                                },
+                                                                                                index
+                                                                                            ) => `
+                                                                                            ${
+                                                                                                index !==
+                                                                                                0
+                                                                                                    ? `<tr>
+                                                                                                    <td colspan="2" style="border-bottom: 1px solid #e7e7e7"></td>
+                                                                                                </tr>`
+                                                                                                    : ""
+                                                                                            }
+                                                                                                <tr>
+                                                                                                    <td>${month}</td>
+                                                                                                    <td>${formatMoney(
+                                                                                                        amount
+                                                                                                    )}</td>
+                                                                                                </tr>
+                                                                                    `
+                                                                                        )
+                                                                                        .join(
+                                                                                            ""
+                                                                                        )}
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                `
+                                                                : ""
+                                                        }
                                                         <tr>
                                                             <td style="padding:20px 0;">
                                                                 <div style="border-radius: 10px; padding:10px 0;">
                                                                     <h3 style="font-size:1.5rem;">
                                                                         Category Wise Expense
                                                                     </h3>
-                                                                    <table style="font-size: 1rem; width:90%; margin: 0 auto;" 
-                                                                        role="presentation" 
-                                                                        cellspacing="0"
-                                                                        border="1">
+                                                                    <table style="font-size: 1.2rem; width:90%; margin: 0 auto;" 
+                                                                        role="presentation"
+                                                                        cellspacing="5"
+                                                                        cellpadding="5"
+                                                                        >
                                                                         <thead>
                                                                             <tr>
                                                                                 <th>Category</th>
@@ -68,18 +131,32 @@ module.exports = (
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
+                                                                            <tr>
+                                                                                <td colspan="2" style="border-bottom: 1px solid #00b89a4d;"></td>
+                                                                            </tr>
                                                                             ${categoryWiseExpense
                                                                                 ?.map(
-                                                                                    ({
-                                                                                        category,
-                                                                                        amount,
-                                                                                    }) => `
-                                                                                <tr>
-                                                                                    <td>${category}</td>
-                                                                                    <td>${formatMoney(
-                                                                                        amount
-                                                                                    )}</td>
-                                                                                </tr>
+                                                                                    (
+                                                                                        {
+                                                                                            category,
+                                                                                            amount,
+                                                                                        },
+                                                                                        index
+                                                                                    ) => `
+                                                                                    ${
+                                                                                        index !==
+                                                                                        0
+                                                                                            ? `<tr>
+                                                                                            <td colspan="2" style="border-bottom: 1px solid #e7e7e7"></td>
+                                                                                        </tr>`
+                                                                                            : ""
+                                                                                    }
+                                                                                        <tr>
+                                                                                            <td>${category}</td>
+                                                                                            <td>${formatMoney(
+                                                                                                amount
+                                                                                            )}</td>
+                                                                                        </tr>
                                                                             `
                                                                                 )
                                                                                 .join(
@@ -91,16 +168,16 @@ module.exports = (
                                                             </td>
                                                         </tr>
                                                         <tr>
-                                                            <td style="style="padding:20px 0;">
+                                                            <td style="padding:20px 0;">
                                                                 <div style="border-radius: 10px; padding:10px 0;">
                                                                     <h3 style="font-size:1.5rem;">
                                                                         Payment mode Wise Expense
                                                                     </h3>
                                                                     <table 
-                                                                        style="font-size: 1rem; width:90%; margin: 0 auto;" 
-                                                                        role="presentation" 
-                                                                        cellspacing="0" 
-                                                                        border="1"
+                                                                        style="font-size: 1.2rem; width:90%; margin: 0 auto;" 
+                                                                        role="presentation"
+                                                                        cellspacing="5"
+                                                                        cellpadding="5"
                                                                         >
                                                                         <thead>
                                                                             <tr>
@@ -109,12 +186,26 @@ module.exports = (
                                                                             </tr>
                                                                         </thead>
                                                                         <tbody>
+                                                                            <tr>
+                                                                                <td colspan="2" style="border-bottom: 1px solid #00b89a4d;"></td>
+                                                                            </tr>
                                                                             ${paymentModeWiseExpense
                                                                                 ?.map(
-                                                                                    ({
-                                                                                        payment_mode,
-                                                                                        amount,
-                                                                                    }) => `
+                                                                                    (
+                                                                                        {
+                                                                                            payment_mode,
+                                                                                            amount,
+                                                                                        },
+                                                                                        index
+                                                                                    ) => `
+                                                                                ${
+                                                                                    index !==
+                                                                                    0
+                                                                                        ? `<tr>
+                                                                                    <td colspan="2" style="border-bottom: 1px solid #e7e7e7"></td>
+                                                                                </tr>`
+                                                                                        : ""
+                                                                                }
                                                                                 <tr>
                                                                                     <td>${payment_mode}</td>
                                                                                     <td>${formatMoney(
