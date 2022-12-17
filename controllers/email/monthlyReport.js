@@ -1,5 +1,5 @@
-module.exports = async (req, res) => {
-    const usersId = await require("./utils/getAllUsersId")();
+module.exports = async (_req, res) => {
+    const users = await require("./utils/getAllUsersEmailAndID")();
 
     const year = new Date().getFullYear();
     const month = new Date().getMonth();
@@ -10,17 +10,19 @@ module.exports = async (req, res) => {
     const response = [];
 
     // Loop through all users and get their monthly report data
-    for (const user_id of usersId) {
+    for (const user of users) {
+        const { _id, userEmail } = user;
+
         const categoryWiseExpense =
-            await require("../../utils/getCategoryWiseExpense")(
+            (await require("../../utils/getCategoryWiseExpense")(
                 categoryWiseQuery,
-                user_id
-            );
+                _id
+            )) ?? [];
         const paymentModeWiseExpense =
-            await require("../../utils/getPaymentModeWiseExpense")(
+            (await require("../../utils/getPaymentModeWiseExpense")(
                 paymentModeWiseQuery,
-                user_id
-            );
+                _id
+            )) ?? [];
 
         // Total expense
         const totalExpense = categoryWiseExpense.reduce(
@@ -29,12 +31,17 @@ module.exports = async (req, res) => {
         );
 
         response.push({
-            user_id: user_id["_id"],
+            userEmail,
             totalExpense,
             categoryWiseExpense,
             paymentModeWiseExpense,
         });
+        require("./utils/SendEmail")(
+            userEmail,
+            totalExpense,
+            categoryWiseExpense,
+            paymentModeWiseExpense
+        );
     }
-    console.log(response);
     res.json(response);
 };
