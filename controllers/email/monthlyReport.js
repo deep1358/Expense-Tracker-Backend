@@ -6,24 +6,21 @@ module.exports = async (_req, res) => {
     const year = new Date().getFullYear();
     const month = new Date().getMonth();
 
-    const categoryWiseQuery = { year, month, day: "All", payment_mode: "All" };
-    const paymentModeWiseQuery = { year, month, day: "All", category: "All" };
+    const query = { year, month };
 
-    const response = [],
-        results = [];
+    const results = [];
 
     // Loop through all users and get their monthly report data
     for (const user of users) {
         const { _id, userEmail } = user;
 
         const categoryWiseExpense =
-            (await require("../../utils/getCategoryWiseExpense")(
-                categoryWiseQuery,
-                _id
-            )) ?? [];
+            (await require("../../utils/getCategoryWiseExpense")(query, _id)) ??
+            [];
+
         const paymentModeWiseExpense =
             (await require("../../utils/getPaymentModeWiseExpense")(
-                paymentModeWiseQuery,
+                query,
                 _id
             )) ?? [];
 
@@ -32,13 +29,6 @@ module.exports = async (_req, res) => {
             (acc, curr) => acc + curr.amount,
             0
         );
-
-        response.push({
-            userEmail,
-            totalExpense,
-            categoryWiseExpense,
-            paymentModeWiseExpense,
-        });
 
         const subject = `Expense Report for ${
             months[new Date().getMonth() - 1]
