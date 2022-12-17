@@ -1,7 +1,7 @@
 module.exports = async (_req, res) => {
     const users = await require("./utils/getAllUsersEmailAndID")();
 
-    const year = new Date().getFullYear();
+    const year = new Date().getFullYear() - 1;
 
     const categoryWiseQuery = {
         year,
