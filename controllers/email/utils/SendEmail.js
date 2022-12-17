@@ -16,6 +16,7 @@ module.exports = (
         },
         host: "smtp.gmail.com",
         port: 465,
+        secureConnection: true,
         secure: true, // use SSL
     });
 
