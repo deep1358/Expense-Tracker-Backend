@@ -6,7 +6,7 @@ module.exports = (req, res) => {
     const { userEmail, userName, userAvatar } = req.body;
 
     User.findOne({ userEmail }, (err, user) => {
-        if (err) res.status(500).json({ message: err });
+        if (err) return res.status(500).json({ message: err });
 
         // If user exists, return user
         if (user) return res.status(200).json({ message: "User exists", user });
@@ -22,13 +22,11 @@ module.exports = (req, res) => {
                 yearly: true,
             },
         })
-            .then((user) => {
-                return res
+            .then((user) =>
+                res
                     .status(200)
-                    .json({ message: "User created successfully", user });
-            })
-            .catch((err) => {
-                return res.status(500).json({ message: err });
-            });
+                    .json({ message: "User created successfully", user })
+            )
+            .catch((err) => res.status(500).json({ message: err }));
     });
 };

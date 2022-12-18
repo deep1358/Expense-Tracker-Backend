@@ -9,16 +9,16 @@ module.exports = (req, res) => {
 		.then(() => {
 			// Delete all expenses of user of this category
 			Expense.deleteMany({ user_id, category })
-				.then(() => {
+				.then(() => 
 					res.status(200).json({
 						message: "Category deleted successfully",
-					});
-				})
+					})
+				)
 				.catch(() =>
 					res.status(500).json({ message: "Error deleting category" })
 				);
 		})
-		.catch(() => {
-			res.status(500).json({ message: "Error deleting category" });
-		});
+		.catch(() => 
+			res.status(500).json({ message: "Error deleting category" })
+		);
 };

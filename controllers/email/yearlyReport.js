@@ -54,5 +54,5 @@ module.exports = async (_req, res) => {
             results.push(err);
         }
     }
-    res.status(200).json({ results });
+    return res.status(200).json({ results });
 };

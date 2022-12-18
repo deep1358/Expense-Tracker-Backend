@@ -2,35 +2,25 @@ const Expense = require("../../db/models/Expense");
 const User = require("../../db/models/User");
 
 module.exports = (req, res) => {
-	const { user_id } = req.headers;
-	const { _id } = req.params;
+    const { user_id } = req.headers;
+    const { _id } = req.params;
 
-	// Check if user exists
-	User.findById(user_id)
-		.then((userRes) => {
-			if (userRes)
-				Expense.deleteOne({
-					_id,
-				})
-					.then(() => {
-						res.status(200).json({
-							message: "Expense deleted successfully",
-						});
-					})
-					.catch((err) => {
-						res.status(500).json({ message: err.message });
-					});
-			else res.status(404).json({ message: "User not found" });
-		})
-		.catch((err) => res.status(500).json({ message: err.message }));
+    // Check if user exists
+    User.findById(user_id)
+        .then((userRes) => {
+            if (userRes)
+                Expense.deleteOne({
+                    _id,
+                })
+                    .then(() =>
+                        res.status(200).json({
+                            message: "Expense deleted successfully",
+                        })
+                    )
+                    .catch((err) =>
+                        res.status(500).json({ message: err.message })
+                    );
+            else return res.status(404).json({ message: "User not found" });
+        })
+        .catch((err) => res.status(500).json({ message: err.message }));
 };
-
-// Code for creating mongo db indexes
-
-// function ObjectId() {
-// 	const timestamp = ((new Date().getTime() / 1000) | 0).toString(16);
-// 	const suffix = "xxxxxxxxxxxxxxxx"
-// 		.replace(/[x]/g, () => ((Math.random() * 16) | 0).toString(16))
-// 		.toLowerCase();
-// 	return `${timestamp}${suffix}`;
-// }

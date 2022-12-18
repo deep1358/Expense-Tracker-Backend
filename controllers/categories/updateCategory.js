@@ -32,22 +32,22 @@ module.exports = (req, res) => {
 				{ user_id, category: oldValue },
 				{ $set: { category: newValue.trim() } }
 			)
-				.then(() => {
+				.then(() => 
 					res.status(200).json({
 						message: "Category updated successfully",
 						categories: categories.map((category) => {
 							if (category === oldValue) return newValue.trim();
 							return category;
 						}),
-					});
-				})
-				.catch(() => {
+					})
+				)
+				.catch(() => 
 					res.status(500).json({
 						message: "Error updating category",
-					});
-				});
+					})
+				);
 		})
-		.catch(() => {
-			res.status(500).json({ message: "Error updating category" });
-		});
+		.catch(() => 
+			res.status(500).json({ message: "Error updating category" })
+		);
 };
