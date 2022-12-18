@@ -231,7 +231,7 @@ module.exports = (
                                                         </tr>
                                                         <tr>
                                                             <td>
-                                                                <p style="font-size: .9rem;">
+                                                                <p style="font-size: 1rem;">
                                                                     Change your email preferences by clicking <a href="https://expense-tracker-frontend.vercel.app/settings/email?email=${encodedEmail}">here</a>
                                                                 </p>
                                                             </td>
