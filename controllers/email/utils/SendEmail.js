@@ -25,6 +25,7 @@ module.exports = async (
                 to: userEmail,
                 subject,
                 html: require("./EmailTemplate")(
+                    encodeURIComponent(userEmail),
                     totalExpense,
                     categoryWiseExpense,
                     paymentModeWiseExpense,

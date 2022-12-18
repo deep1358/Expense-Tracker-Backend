@@ -1,6 +1,7 @@
 const formatMoney = require("../../../utils/formatMoney");
 
 module.exports = (
+    encodedEmail,
     totalExpense,
     categoryWiseExpense,
     paymentModeWiseExpense,
@@ -231,7 +232,7 @@ module.exports = (
                                                         <tr>
                                                             <td>
                                                                 <p style="font-size: .9rem;">
-                                                                    Click <a>here</a> to unsubscribe
+                                                                    Change your email preferences by clicking <a href="https://expense-tracker-frontend.vercel.app/settings/email?email=${encodedEmail}">here</a>
                                                                 </p>
                                                             </td>
                                                         </tr>

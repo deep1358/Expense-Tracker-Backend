@@ -1,7 +1,7 @@
 const months = require("../../utils/months");
 
 module.exports = async (_req, res) => {
-    const users = await require("./utils/getAllUsersEmailAndID")();
+    const users = await require("./utils/getAllUsers")();
 
     const year = new Date().getFullYear();
     const month = new Date().getMonth();
@@ -12,7 +12,13 @@ module.exports = async (_req, res) => {
 
     // Loop through all users and get their monthly report data
     for (const user of users) {
-        const { _id, userEmail } = user;
+        const {
+            _id,
+            userEmail,
+            email_subscription: { monthly },
+        } = user;
+
+        if (!monthly) continue;
 
         const categoryWiseExpense =
             (await require("../../utils/getCategoryWiseExpense")(query, _id)) ??
