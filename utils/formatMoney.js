@@ -1,5 +1,3 @@
-// Format money with commas and two decimal places
+// Format money with commas
 module.exports = (amount) =>
-    Number(parseFloat(amount).toFixed(2)).toLocaleString("en", {
-        minimumFractionDigits: 2,
-    });
+    Number(parseFloat(amount).toFixed(2)).toLocaleString("en");
