@@ -3,8 +3,11 @@ const months = require("../../utils/months");
 module.exports = async (_req, res) => {
     const users = await require("./utils/getAllUsers")();
 
-    const year = new Date().getFullYear();
-    const month = new Date().getMonth();
+    const currentMonth = new Date().getMonth();
+    const month = currentMonth === 0 ? 12 : currentMonth;
+
+    const currentYear = new Date().getFullYear();
+    const year = currentMonth === 0 ? currentYear - 1 : currentYear;
 
     const query = { year, month };
 
@@ -36,12 +39,10 @@ module.exports = async (_req, res) => {
             0
         );
 
-        const subject = `Expense Report for ${
-            months[new Date().getMonth() - 1]
-        } ${new Date().getFullYear()}`;
+        const subject = `Expense Report for ${months[month - 1]} ${year}`;
         const message = `Thank you for using Expense Tracker. Here is your expense report for the month of ${
-            months[new Date().getMonth() - 1]
-        } ${new Date().getFullYear()}.`;
+            months[month - 1]
+        } ${year}.`;
 
         try {
             results.push(
